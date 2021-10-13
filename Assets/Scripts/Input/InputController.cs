@@ -17,6 +17,7 @@ namespace RabiStar.ECS
     {
         public event Action<Vector3> OnLeftMouseButtonDown; //鼠标左键点击事件
         public event Action<Vector3> OnRightMouseButtonDown; //鼠标右键点击事件
+        public event Action OnKeyDownSpace; //键盘按下空格事件
 
         protected void Update()
         {
@@ -38,6 +39,11 @@ namespace RabiStar.ECS
             {
                 OnRightMouseButtonDown?.Invoke(worldPosition);
                 return;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                OnKeyDownSpace?.Invoke();
             }
         }
     }

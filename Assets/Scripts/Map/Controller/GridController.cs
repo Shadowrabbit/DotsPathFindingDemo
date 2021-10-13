@@ -18,17 +18,15 @@ namespace RabiStar.ECS
         private Grid _gridModel;
         private GridRender _gridView;
         private bool _needUpdateMesh;
-        [SerializeField] private int width;
-        [SerializeField] private int height;
         public event Action<int, int> OnGridNodeChanged;
+        public int Width => _gridModel.Width;
+        public int Height => _gridModel.Height;
 
         protected void Awake()
         {
-            _gridModel = new Grid(width, height, 1, Vector3.zero);
             var mesh = new Mesh();
             GetComponent<MeshFilter>().mesh = mesh;
             _gridView = new GridRender(mesh);
-            _gridView.RefreshMesh(_gridModel);
         }
 
         protected void OnEnable()
@@ -41,7 +39,7 @@ namespace RabiStar.ECS
         {
             InputController.Instance.OnRightMouseButtonDown -= OnRightMouseButtonDown;
         }
-        
+
         protected void LateUpdate()
         {
             if (!_needUpdateMesh)
@@ -50,6 +48,17 @@ namespace RabiStar.ECS
             }
 
             _needUpdateMesh = false;
+            _gridView.RefreshMesh(_gridModel);
+        }
+
+        /// <summary>
+        /// 更新网格地图
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void UpdateGrid(int width, int height)
+        {
+            _gridModel = new Grid(width, height, 1, Vector3.zero);
             _gridView.RefreshMesh(_gridModel);
         }
 

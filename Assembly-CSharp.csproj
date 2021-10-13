@@ -52,20 +52,22 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Input\InputController.cs" />
      <Compile Include="Assets\Scripts\Map\Model\GridNode.cs" />
-     <Compile Include="Assets\Scripts\ECS\Move\MoveComponentData.cs" />
-     <Compile Include="Assets\Scripts\ECS\PathFinding\PathBufferData.cs" />
+     <Compile Include="Assets\Scripts\ECS\UnitSpawner\UnitSpawnerComponentData.cs" />
+     <Compile Include="Assets\Scripts\Game\GameController.cs" />
      <Compile Include="Assets\Scripts\Map\Controller\GridController.cs" />
      <Compile Include="Assets\Scripts\Map\MapUtils.cs" />
-     <Compile Include="Assets\Scripts\ECS\PathFollow\PathFollowSystem.cs" />
-     <Compile Include="Assets\Scripts\ECS\UnitSpawner\UnitSpawnerSystem.cs" />
      <Compile Include="Assets\Scripts\ECS\PathFinding\PathFindingComponentData.cs" />
      <Compile Include="Assets\Scripts\ECS\PathFollow\PathFollowComponentData.cs" />
+     <Compile Include="Assets\Scripts\ECS\PathFinding\PathFindingSystem.cs" />
+     <Compile Include="Assets\Scripts\Input\InputController.cs" />
+     <Compile Include="Assets\Scripts\ECS\Move\MoveComponentData.cs" />
+     <Compile Include="Assets\Scripts\ECS\PathFinding\PathBufferData.cs" />
+     <Compile Include="Assets\Scripts\ECS\PathFollow\PathFollowSystem.cs" />
+     <Compile Include="Assets\Scripts\ECS\UnitSpawner\UnitSpawnerSystem.cs" />
      <Compile Include="Assets\Scripts\ECS\RandomWalk\RandomWalkSystem.cs" />
      <Compile Include="Assets\Scripts\ECS\Move\MoveSystem.cs" />
      <Compile Include="Assets\Scripts\Core\BaseMonoSingleton.cs" />
-     <Compile Include="Assets\Scripts\ECS\PathFinding\PathFindingSystem.cs" />
      <Compile Include="Assets\Scripts\Map\View\GridRender.cs" />
      <Compile Include="Assets\Scripts\Map\Model\Grid.cs" />
  <Reference Include="UnityEngine">
@@ -293,14 +295,14 @@
  <Reference Include="UnityEditor.UnityConnectModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.16f1c1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
  </Reference>
- <Reference Include="Newtonsoft.Json">
- <HintPath>D:/DotsPathFindingDemo/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
+ <Reference Include="Unity.Collections.LowLevel.ILSupport">
+ <HintPath>D:/DotsPathFindingDemo/Library/PackageCache/com.unity.collections@0.15.0-preview.21/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
  <HintPath>D:/DotsPathFindingDemo/Library/PackageCache/com.unity.burst@1.4.1/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Collections.LowLevel.ILSupport">
- <HintPath>D:/DotsPathFindingDemo/Library/PackageCache/com.unity.collections@0.15.0-preview.21/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>D:/DotsPathFindingDemo/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.16f1c1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -647,29 +649,29 @@
  <Reference Include="System.Xml.Serialization">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.16f1c1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Transforms.Hybrid">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Transforms.Hybrid.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Properties">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Properties.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Serialization">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Serialization.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.VSCode.Editor">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.CacheServer">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.VisualStudio.Editor">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Timeline.Editor">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Timeline">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
- </Reference>
- <Reference Include="Unity.TextMeshPro">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <Reference Include="Unity.Rendering.Hybrid.Editor">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Rendering.Hybrid.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.PlasticSCM.Editor">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
@@ -677,26 +679,68 @@
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Entities.Hybrid.EndToEnd.Tests">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Entities.Hybrid.EndToEnd.Tests.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.Properties.UI.Editor">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Properties.UI.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Scenes">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Scenes.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.Mathematics.Extensions">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Mathematics.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Mathematics.Editor">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Transforms">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Transforms.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Collections">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Collections.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Scenes.Editor">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Scenes.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.Mathematics.Extensions.Hybrid">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Mathematics.Extensions.Hybrid.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Entities.Editor">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Entities.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Entities.BuildUtils">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Entities.BuildUtils.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Properties.UI">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Properties.UI.dll</HintPath>
+ <Reference Include="Unity.VisualStudio.Editor">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
+ <Reference Include="Unity.Timeline">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Serialization">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Serialization.dll</HintPath>
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Burst.Editor">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.PlasticSCM.Editor">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Entities">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Entities.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Entities.Hybrid">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Entities.Hybrid.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Jobs.Editor">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Jobs.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Mathematics">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Burst">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Jobs">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Jobs.dll</HintPath>
@@ -704,59 +748,23 @@
  <Reference Include="Unity.Deformations">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Deformations.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Properties">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Properties.dll</HintPath>
+ <Reference Include="Unity.Timeline.Editor">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.CacheServer">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
+ <Reference Include="Unity.Properties.UI">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Properties.UI.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Jobs.Editor">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Jobs.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Scenes.Editor">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Scenes.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Collections">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Collections.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Entities.Hybrid.EndToEnd.Tests">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Entities.Hybrid.EndToEnd.Tests.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Mathematics.Editor">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Entities.Editor">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Entities.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Entities.Hybrid">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Entities.Hybrid.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Mathematics">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Transforms.Hybrid">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Transforms.Hybrid.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Burst">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Mathematics.Extensions">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Mathematics.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Transforms">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Transforms.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Entities">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Entities.dll</HintPath>
+ <Reference Include="Unity.ScriptableBuildPipeline">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Serialization.Editor">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Serialization.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.Burst.Editor">
- <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
- </Reference>
  <Reference Include="Unity.ScriptableBuildPipeline.Editor">
  <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Rendering.Hybrid">
+ <HintPath>D:/DotsPathFindingDemo/Library/ScriptAssemblies/Unity.Rendering.Hybrid.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
