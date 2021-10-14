@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\Core\BaseMonoSingleton.cs" />
      <Compile Include="Assets\Scripts\Map\View\GridRender.cs" />
      <Compile Include="Assets\Scripts\Map\Model\Grid.cs" />
+     <Compile Include="Assets\Scripts\ECS\Move\MoveSpeedComponentData.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.16f1c1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

@@ -7,6 +7,7 @@
 //    *(__\_\        @Copyright  Copyright (c) 2021, Shadowrabbit
 // ******************************************************************
 
+using JetBrains.Annotations;
 using Unity.Entities;
 
 namespace RabiStar.ECS
@@ -14,7 +15,9 @@ namespace RabiStar.ECS
     [GenerateAuthoringComponent]
     public struct UnitSpawnerComponentData : IComponentData
     {
+        [UsedImplicitly]
         public Entity prefabToSpawn; //待生成的预制体
+        [UsedImplicitly]
         public int spawnCount; //每次生成的数量
     }
 }

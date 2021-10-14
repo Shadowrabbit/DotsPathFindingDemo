@@ -7,7 +7,6 @@
 //    *(__\_\        @Copyright  Copyright (c) 2021, Shadowrabbit
 // ******************************************************************
 
-using System;
 using Core;
 
 namespace RabiStar.ECS

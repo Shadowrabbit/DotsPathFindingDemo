@@ -8,6 +8,7 @@
 // ******************************************************************
 
 using Unity.Entities;
+using Unity.Mathematics;
 
 namespace RabiStar.ECS
 {
@@ -15,5 +16,6 @@ namespace RabiStar.ECS
     [InternalBufferCapacity(50)]
     public struct PathBufferData : IBufferElementData
     {
+        public int2 position; //路径中某个点的位置
     }
 }

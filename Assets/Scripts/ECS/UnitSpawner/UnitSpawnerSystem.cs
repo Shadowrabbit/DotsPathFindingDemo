@@ -1,6 +1,6 @@
 ﻿// ******************************************************************
 //       /\ /|       @file       UnitSpawnerSystem.cs
-//       \ V/        @brief      单位生成系统
+//       \ V/        @brief      单位生成系统(这个系统没使用Dots)
 //       | "")       @author     Shadowrabbit, yingtu0401@gmail.com
 //       /  |                    
 //      /  \\        @Modified   2021-10-13 11:07:45
