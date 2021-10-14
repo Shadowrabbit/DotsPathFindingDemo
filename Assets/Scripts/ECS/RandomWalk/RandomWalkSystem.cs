@@ -11,6 +11,8 @@ using Unity.Entities;
 
 namespace RabiStar.ECS
 {
+    //当前帧完成路径跟随后再计算 否则会优先于玩家操作指令
+    [UpdateAfter(typeof(PathFollowSystem))]
     public class RandomWalkSystem : SystemBase
     {
         protected override void OnUpdate()

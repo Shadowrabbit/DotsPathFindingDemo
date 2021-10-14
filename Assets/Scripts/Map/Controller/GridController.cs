@@ -19,6 +19,7 @@ namespace RabiStar.ECS
         private GridRender _gridView;
         private bool _needUpdateMesh;
         public event Action<int, int> OnGridNodeChanged;
+        public event Action OnGridInitialized;
         public int Width => _gridModel.Width;
         public int Height => _gridModel.Height;
 
@@ -52,14 +53,34 @@ namespace RabiStar.ECS
         }
 
         /// <summary>
-        /// 更新网格地图
+        /// 某个节点是否可行
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool IsNodeWalkable(int x, int y)
+        {
+            return _gridModel.IsGridNodeWalkable(x, y);
+        }
+
+        /// <summary>
+        /// 获取节点id
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public int GetNodeId(int x, int y) => _gridModel.GetNodeId(x, y);
+
+        /// <summary>
+        /// 初始化网格地图
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public void UpdateGrid(int width, int height)
+        public void InitGrid(int width, int height)
         {
             _gridModel = new Grid(width, height, 1, Vector3.zero);
             _gridView.RefreshMesh(_gridModel);
+            OnGridInitialized?.Invoke();
         }
 
         /// <summary>
@@ -72,7 +93,7 @@ namespace RabiStar.ECS
             //数据更变
             var isWalkable = _gridModel.IsGridNodeWalkable(x, y);
             _gridModel.SetGridNodeWalkable(x, y, !isWalkable);
-            //可行性更变
+            //todo 可行性更变
             OnGridNodeChanged?.Invoke(x, y);
             _needUpdateMesh = true;
         }

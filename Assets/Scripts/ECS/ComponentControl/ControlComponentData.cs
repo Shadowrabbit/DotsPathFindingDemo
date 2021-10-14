@@ -1,19 +1,19 @@
 ﻿// ******************************************************************
-//       /\ /|       @file       PathFollowComponentData.cs
-//       \ V/        @brief      路径跟随组件数据
+//       /\ /|       @file       ControlComponentData.cs
+//       \ V/        @brief      控制组件数据
 //       | "")       @author     Shadowrabbit, yingtu0401@gmail.com
 //       /  |                    
-//      /  \\        @Modified   2021-10-13 11:43:15
+//      /  \\        @Modified   2021-10-14 09:55:04
 //    *(__\_\        @Copyright  Copyright (c) 2021, Shadowrabbit
 // ******************************************************************
 
 using Unity.Entities;
 
-namespace RabiStar.ECS
+namespace ECS.ComponentControl
 {
     [GenerateAuthoringComponent]
-    public struct PathFollowComponentData : IComponentData
+    public struct ControlComponentData : IComponentData
     {
-        public int currentPathIndex; //当前寻路中的路径的节点索引(索引0是终点 最大索引是起点 倒序)
+        public bool isOtherSystemEnabled;
     }
 }

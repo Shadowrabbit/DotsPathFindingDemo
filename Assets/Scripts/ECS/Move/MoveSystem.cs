@@ -7,12 +7,15 @@
 //    *(__\_\        @Copyright  Copyright (c) 2021, Shadowrabbit
 // ******************************************************************
 
+using ECS.ComponentControl;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace RabiStar.ECS
 {
+    //在路径跟随系统计算完成后移动
+    [UpdateAfter(typeof(RandomWalkSystem))]
     public class MoveSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem; //命令缓冲系统

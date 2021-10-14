@@ -18,7 +18,7 @@ namespace RabiStar.ECS
 
         private void Start()
         {
-            GridController.Instance.UpdateGrid(mapWidth, mapHeight);
+            GridController.Instance.InitGrid(mapWidth, mapHeight);
         }
     }
 }
