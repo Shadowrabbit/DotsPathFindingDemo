@@ -35,53 +35,56 @@ namespace RabiStar.ECS
 
         protected override void OnUpdate()
         {
-            var gridWidth = GridController.Instance.Width;
-            var gridHeight = GridController.Instance.Height;
-            var gridSize = new int2(gridWidth, gridHeight);
-            //计算列表 用于储存计算结果
-            var pathFindingJobList = new List<PathFindingJob>();
-            //工作的句柄列表
-            var jobHandleList = new NativeList<JobHandle>(Allocator.Temp);
+            // var gridWidth = GridController.Instance.Width;
+            // var gridHeight = GridController.Instance.Height;
+            // var gridSize = new int2(gridWidth, gridHeight);
+            // //计算列表 用于储存计算结果
+            // var pathFindingJobList = new List<PathFindingJob>();
+            // //工作的句柄列表
+            // var jobHandleList = new NativeList<JobHandle>(Allocator.Temp);
             //并行缓冲器 会开多个线程处理job
             var entityCommandBuffer = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
-            //_pathNodeArray在堆上 在栈上克隆一份
-            var pathNodeArray = _pathNodeArray;
-            //寻路计算 结果在pathNodeArray的endPathNode上
-            Entities.WithoutBurst().ForEach((Entity entity, int entityInQueryIndex,
+            // //_pathNodeArray在堆上 在栈上克隆一份
+            // var pathNodeArray = _pathNodeArray;
+            // //寻路计算 结果在pathNodeArray的endPathNode上
+            // Entities.WithoutBurst().ForEach((Entity entity, int entityInQueryIndex,
+            //     in PathFindingComponentData pathFindingComponentData) =>
+            // {
+            //     //每份寻路的计算结果都需要储存
+            //     var tempPathNodeArray = new NativeArray<PathNode>(pathNodeArray, Allocator.TempJob);
+            //     var pathFindingJob = new PathFindingJob
+            //     {
+            //         entity = entity,
+            //         gridSize = gridSize,
+            //         pathNodeArray = tempPathNodeArray,
+            //         startPos = pathFindingComponentData.startPos,
+            //         endPos = pathFindingComponentData.endPos
+            //     };
+            //     pathFindingJobList.Add(pathFindingJob);
+            //     jobHandleList.Add(pathFindingJob.Schedule());
+            // }).Run();
+            // //开始计算
+            // JobHandle.CompleteAll(jobHandleList);
+            // //将寻路结果从节点转换为路径 路径将保存在pathBuffer中
+            // foreach (var pathConvertingJob in pathFindingJobList.Select(pathFindingJob => new PathConvertingJob
+            // {
+            //     entity = pathFindingJob.entity,
+            //     gridSize = pathFindingJob.gridSize,
+            //     pathNodeArray = pathFindingJob.pathNodeArray,
+            //     pathFindingComponentDataFromEntity = GetComponentDataFromEntity<PathFindingComponentData>(),
+            //     pathFollowComponentDataFromEntity = GetComponentDataFromEntity<PathFollowComponentData>(),
+            //     pathBufferFromEntity = GetBufferFromEntity<PathBufferData>()
+            // }))
+            // {
+            //     pathConvertingJob.Run();
+            // }
+            //移除寻路组件
+            Entities.ForEach((Entity entity, int entityInQueryIndex,
                 in PathFindingComponentData pathFindingComponentData) =>
             {
-                //每份寻路的计算结果都需要储存
-                var tempPathNodeArray = new NativeArray<PathNode>(pathNodeArray, Allocator.TempJob);
-                var pathFindingJob = new PathFindingJob
-                {
-                    entity = entity,
-                    gridSize = gridSize,
-                    pathNodeArray = tempPathNodeArray,
-                    startPos = pathFindingComponentData.startPos,
-                    endPos = pathFindingComponentData.endPos
-                };
-                pathFindingJobList.Add(pathFindingJob);
-                jobHandleList.Add(pathFindingJob.Schedule());
                 //缓存移除命令 当前帧计算完毕后再撤销组件
                 entityCommandBuffer.RemoveComponent<PathFindingComponentData>(entityInQueryIndex, entity);
-                //非托管内存回收
-                tempPathNodeArray.Dispose();
-            }).Run();
-            //开始计算
-            JobHandle.CompleteAll(jobHandleList);
-            //将寻路结果从节点转换为路径 路径将保存在pathBuffer中
-            foreach (var pathConvertingJob in pathFindingJobList.Select(pathFindingJob => new PathConvertingJob
-            {
-                entity = pathFindingJob.entity,
-                gridSize = pathFindingJob.gridSize,
-                pathNodeArray = pathFindingJob.pathNodeArray,
-                pathFindingComponentDataFromEntity = GetComponentDataFromEntity<PathFindingComponentData>(),
-                pathFollowComponentDataFromEntity = GetComponentDataFromEntity<PathFollowComponentData>(),
-                pathBufferFromEntity = GetBufferFromEntity<PathBufferData>()
-            }))
-            {
-                pathConvertingJob.Run();
-            }
+            }).Schedule();
         }
 
         /// <summary>

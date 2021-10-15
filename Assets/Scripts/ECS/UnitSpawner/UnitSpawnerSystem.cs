@@ -21,10 +21,14 @@ namespace RabiStar.ECS
         protected override void OnCreate()
         {
             _random = new Random(1);
+        }
+
+        protected override void OnStartRunning()
+        {
             InputController.Instance.OnKeyDownSpace += OnKeyDownSpace;
         }
 
-        protected override void OnDestroy()
+        protected override void OnStopRunning()
         {
             InputController.Instance.OnKeyDownSpace -= OnKeyDownSpace;
         }

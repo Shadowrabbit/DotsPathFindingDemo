@@ -23,6 +23,11 @@ namespace ECS.ComponentControl
 
         protected override void OnDestroy()
         {
+            if (GridController.Instance == null)
+            {
+                return;
+            }
+
             GridController.Instance.OnGridInitialized -= OnGridInitialized;
         }
 
@@ -47,7 +52,7 @@ namespace ECS.ComponentControl
             World.GetOrCreateSystem<MoveSystem>().Enabled = enabled;
             World.GetOrCreateSystem<PathFindingSystem>().Enabled = enabled;
             World.GetOrCreateSystem<PathFollowSystem>().Enabled = enabled;
-            World.GetOrCreateSystem<RandomWalkSystem>().Enabled = enabled;
+            //.GetOrCreateSystem<RandomWalkSystem>().Enabled = enabled;
             World.GetOrCreateSystem<UnitSpawnerSystem>().Enabled = enabled;
         }
     }

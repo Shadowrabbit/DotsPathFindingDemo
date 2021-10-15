@@ -52,30 +52,31 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\ECS\PathFinding\PathBufferAuthoring.cs" />
      <Compile Include="Assets\Scripts\Map\Model\GridNode.cs" />
      <Compile Include="Assets\Scripts\ECS\UnitSpawner\UnitSpawnerComponentData.cs" />
+     <Compile Include="Assets\Scripts\ECS\PathFinding\PathNode.cs" />
      <Compile Include="Assets\Scripts\Game\GameController.cs" />
      <Compile Include="Assets\Scripts\Map\Controller\GridController.cs" />
      <Compile Include="Assets\Scripts\Map\MapUtils.cs" />
+     <Compile Include="Assets\Scripts\ECS\ComponentControl\ControlSystem.cs" />
+     <Compile Include="Assets\Scripts\ECS\ComponentControl\ControlComponentData.cs" />
      <Compile Include="Assets\Scripts\ECS\PathFinding\PathFindingComponentData.cs" />
      <Compile Include="Assets\Scripts\ECS\PathFollow\PathFollowComponentData.cs" />
      <Compile Include="Assets\Scripts\ECS\PathFinding\PathFindingSystem.cs" />
      <Compile Include="Assets\Scripts\Input\InputController.cs" />
      <Compile Include="Assets\Scripts\ECS\Move\MoveComponentData.cs" />
      <Compile Include="Assets\Scripts\ECS\PathFinding\PathBufferData.cs" />
+     <Compile Include="Assets\Scripts\ECS\Move\MoveSpeedComponentData.cs" />
      <Compile Include="Assets\Scripts\ECS\PathFollow\PathFollowSystem.cs" />
+     <Compile Include="Assets\Scripts\ECS\PathFinding\PathFindingJob.cs" />
      <Compile Include="Assets\Scripts\ECS\UnitSpawner\UnitSpawnerSystem.cs" />
      <Compile Include="Assets\Scripts\ECS\RandomWalk\RandomWalkSystem.cs" />
      <Compile Include="Assets\Scripts\ECS\Move\MoveSystem.cs" />
      <Compile Include="Assets\Scripts\Core\BaseMonoSingleton.cs" />
      <Compile Include="Assets\Scripts\Map\View\GridRender.cs" />
-     <Compile Include="Assets\Scripts\Map\Model\Grid.cs" />
-     <Compile Include="Assets\Scripts\ECS\Move\MoveSpeedComponentData.cs" />
-     <Compile Include="Assets\Scripts\ECS\PathFinding\PathNode.cs" />
-     <Compile Include="Assets\Scripts\ECS\PathFinding\PathFindingJob.cs" />
      <Compile Include="Assets\Scripts\ECS\PathFinding\PathConvertingJob.cs" />
-     <Compile Include="Assets\Scripts\ECS\ComponentControl\ControlSystem.cs" />
-     <Compile Include="Assets\Scripts\ECS\ComponentControl\ControlComponentData.cs" />
+     <Compile Include="Assets\Scripts\Map\Model\Grid.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.16f1c1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>

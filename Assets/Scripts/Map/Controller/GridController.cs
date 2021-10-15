@@ -22,6 +22,7 @@ namespace RabiStar.ECS
         public event Action OnGridInitialized;
         public int Width => _gridModel.Width;
         public int Height => _gridModel.Height;
+        public float CellSize => _gridModel.CellSize;
 
         protected void Awake()
         {
@@ -38,6 +39,11 @@ namespace RabiStar.ECS
 
         protected void OnDisable()
         {
+            if (InputController.Instance == null)
+            {
+                return;
+            }
+
             InputController.Instance.OnRightMouseButtonDown -= OnRightMouseButtonDown;
         }
 

@@ -7,7 +7,6 @@
 //    *(__\_\        @Copyright  Copyright (c) 2021, Shadowrabbit
 // ******************************************************************
 
-using ECS.ComponentControl;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -15,7 +14,7 @@ using Unity.Transforms;
 namespace RabiStar.ECS
 {
     //在路径跟随系统计算完成后移动
-    [UpdateAfter(typeof(RandomWalkSystem))]
+    //[UpdateAfter(typeof(RandomWalkSystem))]
     public class MoveSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem; //命令缓冲系统
@@ -39,7 +38,7 @@ namespace RabiStar.ECS
                     var speed = moveSpeedComponentData.speed;
                     translation.Value += speed * deltaTime * dir;
                     //移动完成 撤销移动组件
-                    entityCommandBuffer.RemoveComponent(entityInQueryIndex, entity, typeof(MoveComponentData));
+                    entityCommandBuffer.RemoveComponent<MoveComponentData>(entityInQueryIndex, entity);
                 }).ScheduleParallel(Dependency);
             _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
         }
