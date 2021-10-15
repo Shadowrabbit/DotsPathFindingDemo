@@ -14,12 +14,10 @@ namespace RabiStar.ECS
 {
     public class PathFollowSystem : SystemBase
     {
-        private Random _random;
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem; //命令缓冲系统
 
         protected override void OnCreate()
         {
-            _random = new Random(1);
             _endSimulationEntityCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }
 
@@ -49,6 +47,7 @@ namespace RabiStar.ECS
             }).ScheduleParallel(Dependency);
             //添加移动组件数据破坏了archetype结构 所以使用缓冲区延迟执行
             _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
+            //挂起等job完成
             jobHandle.Complete();
         }
     }

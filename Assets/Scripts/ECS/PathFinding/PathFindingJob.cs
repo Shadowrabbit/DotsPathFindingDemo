@@ -26,6 +26,13 @@ namespace RabiStar.ECS
 
         public void Execute()
         {
+            //todo 测试
+            if (entity.Index != 200)
+            {
+                pathNodeArray.Dispose();
+                return;
+            }
+
             //上下左右偏移
             var neighbourOffsetArray = new NativeArray<int2>(4, Allocator.Temp)
             {
@@ -101,6 +108,8 @@ namespace RabiStar.ECS
                         continue;
                     }
 
+                    //更低的消耗 更新实际消耗
+                    neighbourPathNode.gCost = gCostFromCurrentPathNode;
                     //更新父节点来源
                     neighbourPathNode.cameFromNodeId = currentPathNodeId;
                     //计算过的节点 一定在开放列表或者关闭集
@@ -114,12 +123,13 @@ namespace RabiStar.ECS
 
                     pathNodeArray[neighbourPathNodeId] = neighbourPathNode;
                 }
-
-                //释放非托管内存
-                neighbourOffsetArray.Dispose();
-                openList.Dispose();
-                closedMap.Dispose();
             }
+
+            //释放非托管内存
+            neighbourOffsetArray.Dispose();
+            openList.Dispose();
+            closedMap.Dispose();
+            pathNodeArray.Dispose();
         }
 
         /// <summary>

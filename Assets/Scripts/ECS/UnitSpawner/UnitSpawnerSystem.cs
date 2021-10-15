@@ -30,6 +30,11 @@ namespace RabiStar.ECS
 
         protected override void OnStopRunning()
         {
+            if (InputController.Instance == null)
+            {
+                return;
+            }
+
             InputController.Instance.OnKeyDownSpace -= OnKeyDownSpace;
         }
 
