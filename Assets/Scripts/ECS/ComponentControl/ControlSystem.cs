@@ -50,7 +50,7 @@ namespace ECS.ComponentControl
         private void SetSystemEnabled(bool enabled)
         {
             World.GetOrCreateSystem<MoveSystem>().Enabled = enabled;
-            World.GetOrCreateSystem<PathFindingSystem>().Enabled = enabled;
+            //World.GetOrCreateSystem<PathFindingSystem>().Enabled = enabled;
             World.GetOrCreateSystem<PathFollowSystem>().Enabled = enabled;
             //.GetOrCreateSystem<RandomWalkSystem>().Enabled = enabled;
             World.GetOrCreateSystem<UnitSpawnerSystem>().Enabled = enabled;

@@ -9,7 +9,6 @@
 
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Transforms;
 
 namespace RabiStar.ECS
 {
@@ -29,7 +28,7 @@ namespace RabiStar.ECS
             //并行缓冲器 会开多个线程处理job
             var entityCommandBuffer = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
             //有路径跟随组件 有路径
-            var jobHandleFollow = Entities.ForEach((Entity entity, int entityInQueryIndex,
+            var jobHandle = Entities.ForEach((Entity entity, int entityInQueryIndex,
                 DynamicBuffer<PathBufferData> pathBuffer, ref PathFollowComponentData pathFollowComponentData) =>
             {
                 //当前没有路径要跟随
@@ -49,45 +48,8 @@ namespace RabiStar.ECS
                 pathFollowComponentData.currentPathIndex--;
             }).ScheduleParallel(Dependency);
             //添加移动组件数据破坏了archetype结构 所以使用缓冲区延迟执行
-            _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(jobHandleFollow);
-            
-            //////////////////////////////////////////////////
-            var gridWidth = GridController.Instance.Width;
-            var gridHeight = GridController.Instance.Height;
-            var cellSize = GridController.Instance.CellSize;
-            //随机种子
-            var random = new Random(_random.NextUInt(1, (uint) (gridWidth * gridHeight)));
-            //var entityCommandBuffer = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
-            var jobHandleRandomWalk = Entities.WithNone<PathFindingComponentData>().ForEach((Entity entity,
-                int entityInQueryIndex, in PathFollowComponentData pathFollowComponentData,
-                in Translation translation) =>
-            {
-                //当前实体存在路径跟随数据
-                if (pathFollowComponentData.currentPathIndex != -1)
-                {
-                    return;
-                }
-
-                //当前的位置四舍五入来计算当前的cell位置
-                var worldPos = translation.Value + new float3(.5f * cellSize, .5f * cellSize, 0);
-                //寻路起始点
-                var startX = (int) math.floor(worldPos.x / cellSize);
-                var startY = (int) math.floor(worldPos.y / cellSize);
-                //容错
-                startX = math.clamp(startX, 0, gridWidth - 1);
-                startY = math.clamp(startY, 0, gridHeight - 1);
-                //寻路终点
-                var endX = random.NextInt(0, gridWidth);
-                var endY = random.NextInt(0, gridHeight);
-                //设置寻路数据
-                entityCommandBuffer.AddComponent(entityInQueryIndex, entity, new PathFindingComponentData()
-                {
-                    startPos = new int2(startX, startY), endPos = new int2(endX, endY)
-                });
-            }).ScheduleParallel(jobHandleFollow);
-            //延迟改变结构
-            _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(jobHandleRandomWalk);
-            Dependency = jobHandleRandomWalk;
+            _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
+            jobHandle.Complete();
         }
     }
 }
