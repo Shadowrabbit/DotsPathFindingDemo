@@ -66,13 +66,14 @@ namespace RabiStar.ECS
             }
 
             //先添加终点
-            pathBuffer.Add(new PathBufferData {position = new int2(endPathNode.x, endPathNode.y)});
+            pathBuffer.Add(new PathBufferData {position = new float2(endPathNode.centerX, endPathNode.centerY)});
             var currentPathNode = endPathNode;
             while (currentPathNode.cameFromNodeId != -1)
             {
                 //上个节点
                 var lastPathNode = pathNodeArray[currentPathNode.cameFromNodeId];
-                pathBuffer.Add(new PathBufferData {position = new int2(currentPathNode.x, currentPathNode.y)});
+                pathBuffer.Add(new PathBufferData
+                    {position = new float2(currentPathNode.centerX, currentPathNode.centerY)});
                 currentPathNode = lastPathNode;
             }
         }

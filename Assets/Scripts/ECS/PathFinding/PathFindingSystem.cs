@@ -95,11 +95,14 @@ namespace RabiStar.ECS
             {
                 for (var y = 0; y < height; y++)
                 {
+                    var gridNode = gridController[x, y];
                     var pathNodeId = gridController.GetNodeId(x, y);
                     var pathNode = new PathNode
                     {
                         x = x,
                         y = y,
+                        centerX = gridController[x,y].centerX,
+                        centerY = gridController[x,y].centerY,
                         id = pathNodeId,
                         gCost = int.MaxValue,
                         isWalkable = gridController.IsNodeWalkable(x, y),

@@ -35,10 +35,10 @@ namespace RabiStar.ECS
             var vIndex3 = vIndex0 + 3;
             //尺寸的一半 算顶点坐标用
             quadSize *= .5f;
-            vertices[vIndex0] = quadWorldPos + Quaternion.Euler(0, 0, 0) * quadSize;
-            vertices[vIndex1] = quadWorldPos + Quaternion.Euler(0, 0, 90) * quadSize;
-            vertices[vIndex2] = quadWorldPos + Quaternion.Euler(0, 0, 180) * quadSize;
-            vertices[vIndex3] = quadWorldPos + Quaternion.Euler(0, 0, 270) * quadSize;
+            vertices[vIndex0] = quadWorldPos + Quaternion.Euler(0, 0, 0) * quadSize + quadSize;
+            vertices[vIndex1] = quadWorldPos + Quaternion.Euler(0, 0, 90) * quadSize + quadSize;
+            vertices[vIndex2] = quadWorldPos + Quaternion.Euler(0, 0, 180) * quadSize + quadSize;
+            vertices[vIndex3] = quadWorldPos + Quaternion.Euler(0, 0, 270) * quadSize + quadSize;
             //纹理坐标
             uvs[vIndex0] = new Vector2(uv00.x, uv11.y);
             uvs[vIndex1] = new Vector2(uv00.x, uv00.y);

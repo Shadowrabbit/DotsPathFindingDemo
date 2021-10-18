@@ -30,20 +30,9 @@ namespace RabiStar.ECS
             {
                 for (var y = 0; y < height; y++)
                 {
-                    _gridNodeArray[x, y] = new GridNode(x, y);
+                    _gridNodeArray[x, y] = new GridNode(GetNodeId(x, y), x, y, cellSize);
                 }
             }
-        }
-
-        /// <summary>
-        /// 获取节点Id
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public int GetNodeId(int x, int y)
-        {
-            return x + y * Width;
         }
 
         /// <summary>
@@ -62,12 +51,9 @@ namespace RabiStar.ECS
         /// <returns></returns>
         public GridNode GetGridNode(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= Width || y >= Height)
-            {
-                return default;
-            }
-
-            return _gridNodeArray[x, y];
+            if (x >= 0 && y >= 0 && x < Width && y < Height) return _gridNodeArray[x, y];
+            Debug.LogWarning($"网格节点不存在({x},{y})");
+            return default;
         }
 
         /// <summary>
@@ -77,8 +63,10 @@ namespace RabiStar.ECS
         /// <returns></returns>
         public GridNode GetGridNode(Vector3 worldPos)
         {
+            Debug.Log($"点击的世界坐标{worldPos.ToString()}");
             var x = Mathf.FloorToInt((worldPos - _pos).x / CellSize);
             var y = Mathf.FloorToInt((worldPos - _pos).y / CellSize);
+            Debug.Log($"点击的格子坐标{x},{y}");
             return GetGridNode(x, y);
         }
 
@@ -102,6 +90,17 @@ namespace RabiStar.ECS
         public void SetGridNodeWalkable(int x, int y, bool isWalkable)
         {
             _gridNodeArray[x, y].SetWalkable(isWalkable);
+        }
+
+        /// <summary>
+        /// 获取节点Id
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        private int GetNodeId(int x, int y)
+        {
+            return x + y * Width;
         }
     }
 }

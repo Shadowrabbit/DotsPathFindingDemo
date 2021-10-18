@@ -16,6 +16,6 @@ namespace RabiStar.ECS
     [InternalBufferCapacity(50)]
     public struct PathBufferData : IBufferElementData
     {
-        public int2 position; //路径中某个点的位置
+        public float2 position; //路径中某个点的位置
     }
 }

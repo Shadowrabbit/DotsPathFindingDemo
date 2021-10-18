@@ -25,8 +25,8 @@ namespace RabiStar.ECS
         {
             //并行缓冲器 会开多个线程处理job
             var entityCommandBuffer = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
-            //有路径跟随组件 有路径
-            var jobHandle = Entities.ForEach((Entity entity, int entityInQueryIndex,
+            //有路径跟随组件 有路径 没有移动目标
+            var jobHandle = Entities.WithNone<MoveComponentData>().ForEach((Entity entity, int entityInQueryIndex,
                 DynamicBuffer<PathBufferData> pathBuffer, ref PathFollowComponentData pathFollowComponentData) =>
             {
                 //当前没有路径要跟随

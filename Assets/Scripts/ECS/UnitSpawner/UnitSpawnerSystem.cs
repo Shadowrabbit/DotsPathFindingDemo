@@ -59,9 +59,10 @@ namespace RabiStar.ECS
             {
                 var x = _random.NextInt(0, GridController.Instance.Width);
                 var y = _random.NextInt(0, GridController.Instance.Height);
+                var gridNode = GridController.Instance[x, y];
                 var entityToSpawn = EntityManager.Instantiate(unitSpawnerComponentData.prefabToSpawn);
                 EntityManager.SetComponentData(entityToSpawn,
-                    new Translation {Value = new float3(x, y, 0)});
+                    new Translation {Value = new float3(gridNode.centerX, gridNode.centerY, 0)});
             }
         }
 

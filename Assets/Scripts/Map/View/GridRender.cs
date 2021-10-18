@@ -33,9 +33,9 @@ namespace RabiStar.ECS
             {
                 for (var y = 0; y < grid.Height; y++)
                 {
-                    var index = grid.GetNodeId(x, y);
-                    var quadSize = new Vector3(grid.CellSize, grid.CellSize);
                     var gridNode = grid.GetGridNode(x, y);
+                    var index = gridNode.id;
+                    var quadSize = new Vector3(grid.CellSize, grid.CellSize);
                     //可行走取左半 不可行走取右半
                     var uv00 = gridNode.IsWalkable ? new Vector2(0, 0) : new Vector2(.5f, .5f);
                     var uv11 = gridNode.IsWalkable ? new Vector2(.5f, .5f) : new Vector2(1f, 1f);

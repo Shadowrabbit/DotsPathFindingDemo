@@ -7,6 +7,7 @@
 //    *(__\_\        @Copyright  Copyright (c) 2021, Shadowrabbit
 // ******************************************************************
 
+using JetBrains.Annotations;
 using Unity.Entities;
 
 namespace RabiStar.ECS
@@ -14,6 +15,6 @@ namespace RabiStar.ECS
     [GenerateAuthoringComponent]
     public struct MoveSpeedComponentData : IComponentData
     {
-        public int speed;
+        [UsedImplicitly]public int speed;
     }
 }

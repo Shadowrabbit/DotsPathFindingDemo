@@ -18,6 +18,8 @@ namespace RabiStar.ECS
         public int hCost; //预估消耗值
         public bool isWalkable; //是否可行走
         public int cameFromNodeId; //路径的上个节点的索引
+        public float centerX; //中心X
+        public float centerY; //中心Y
         public int FCost => gCost + hCost; //启发消耗值
     }
 }

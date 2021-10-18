@@ -18,12 +18,12 @@ namespace RabiStar.ECS
         private Grid _gridModel;
         private GridRender _gridView;
         private bool _needUpdateMesh;
-        private bool hasInitialized;
-        public event Action<int, int> OnGridNodeChanged;
+        private bool _hasInitialized;
         public event Action OnGridInitialized;
         public int Width => _gridModel.Width;
         public int Height => _gridModel.Height;
         public float CellSize => _gridModel.CellSize;
+        public GridNode this[int x, int y] => _gridModel.GetGridNode(x, y);
 
         protected void Awake()
         {
@@ -76,7 +76,7 @@ namespace RabiStar.ECS
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public int GetNodeId(int x, int y) => _gridModel.GetNodeId(x, y);
+        public int GetNodeId(int x, int y) => _gridModel.GetGridNode(x, y).id;
 
         /// <summary>
         /// 初始化网格地图
@@ -88,7 +88,7 @@ namespace RabiStar.ECS
             _gridModel = new Grid(width, height, 1, Vector3.zero);
             _gridView.RefreshMesh(_gridModel);
             OnGridInitialized?.Invoke();
-            hasInitialized = true;
+            _hasInitialized = true;
         }
 
         /// <summary>
@@ -101,8 +101,6 @@ namespace RabiStar.ECS
             //数据更变
             var isWalkable = _gridModel.IsGridNodeWalkable(x, y);
             _gridModel.SetGridNodeWalkable(x, y, !isWalkable);
-            //todo 可行性更变
-            OnGridNodeChanged?.Invoke(x, y);
             _needUpdateMesh = true;
         }
 
@@ -113,7 +111,7 @@ namespace RabiStar.ECS
         private void OnRightMouseButtonDown(Vector3 worldPos)
         {
             //没有初始化完成 不接收输入命令
-            if (!hasInitialized)
+            if (!_hasInitialized)
             {
                 return;
             }
