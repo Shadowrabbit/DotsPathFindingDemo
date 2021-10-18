@@ -63,10 +63,8 @@ namespace RabiStar.ECS
         /// <returns></returns>
         public GridNode GetGridNode(Vector3 worldPos)
         {
-            Debug.Log($"点击的世界坐标{worldPos.ToString()}");
             var x = Mathf.FloorToInt((worldPos - _pos).x / CellSize);
             var y = Mathf.FloorToInt((worldPos - _pos).y / CellSize);
-            Debug.Log($"点击的格子坐标{x},{y}");
             return GetGridNode(x, y);
         }
 
