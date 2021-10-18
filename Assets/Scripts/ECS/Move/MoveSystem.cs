@@ -14,7 +14,7 @@ using Unity.Transforms;
 namespace RabiStar.ECS
 {
     //在路径跟随系统计算完成后移动
-    //[UpdateAfter(typeof(RandomWalkSystem))]
+    [UpdateAfter(typeof(PathFindingSystem))]
     public class MoveSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem; //命令缓冲系统
@@ -41,6 +41,7 @@ namespace RabiStar.ECS
                     entityCommandBuffer.RemoveComponent<MoveComponentData>(entityInQueryIndex, entity);
                 }).ScheduleParallel(Dependency);
             _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
+            jobHandle.Complete();
         }
     }
 }

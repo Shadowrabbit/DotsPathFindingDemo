@@ -30,26 +30,32 @@ namespace RabiStar.ECS
 
         public void Execute()
         {
-            var pathBuffer = pathBufferFromEntity[entity];
-            //清除缓存
-            pathBuffer.Clear();
-            //实体上的寻路数据
-            var pathFindingComponentData = pathFindingComponentDataFromEntity[entity];
-            //寻路结束节点的id
-            var endPathNodeId = pathFindingComponentData.endPos.x + pathFindingComponentData.endPos.y * gridSize.x;
-            //寻路结束节点
-            var endPathNode = pathNodeArray[endPathNodeId];
-            //没有父节点 寻路失败
-            if (endPathNode.cameFromNodeId == -1)
+            //todo 测试
+            if (entity.Index != 200)
             {
-                pathFollowComponentDataFromEntity[entity] = new PathFollowComponentData {currentPathIndex = -1};
                 return;
             }
 
-            SetPathBuffer(endPathNode, pathBuffer);
-            //设置寻路起点为路径跟随目标
-            pathFollowComponentDataFromEntity[entity] = new PathFollowComponentData
-                {currentPathIndex = pathBuffer.Length - 1};
+            // var pathBuffer = pathBufferFromEntity[entity];
+            // //清除缓存
+            // pathBuffer.Clear();
+            // //实体上的寻路数据
+            // var pathFindingComponentData = pathFindingComponentDataFromEntity[entity];
+            // //寻路结束节点的id
+            // var endPathNodeId = pathFindingComponentData.endPos.x + pathFindingComponentData.endPos.y * gridSize.x;
+            // //寻路结束节点
+            // var endPathNode = pathNodeArray[endPathNodeId];
+            // //没有父节点 寻路失败
+            // if (endPathNode.cameFromNodeId == -1)
+            // {
+            //     pathFollowComponentDataFromEntity[entity] = new PathFollowComponentData {currentPathIndex = -1};
+            //     return;
+            // }
+            //
+            // SetPathBuffer(endPathNode, pathBuffer);
+            // //设置寻路起点为路径跟随目标
+            // pathFollowComponentDataFromEntity[entity] = new PathFollowComponentData
+            //     {currentPathIndex = pathBuffer.Length - 1};
         }
 
         /// <summary>

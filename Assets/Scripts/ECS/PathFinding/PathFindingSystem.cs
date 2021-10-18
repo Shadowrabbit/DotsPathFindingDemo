@@ -13,6 +13,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace RabiStar.ECS
 {
@@ -30,12 +31,12 @@ namespace RabiStar.ECS
             var gridWidth = GridController.Instance.Width;
             var gridHeight = GridController.Instance.Height;
             var gridSize = new int2(gridWidth, gridHeight);
-            //初始寻路节点网格数据
-            var pathNodeArray = GetPathNodeArray();
             //计算列表 用于储存计算结果
-            //var pathFindingJobList = new List<PathFindingJob>();
+            var pathFindingJobList = new List<PathFindingJob>();
             //工作的句柄列表
             var jobHandleList = new NativeList<JobHandle>(100, Allocator.Temp);
+            //初始化的寻路网格节点数组
+            var pathNodeArray = GetPathNodeArray();
             //寻路计算 结果在pathNodeArray的endPathNode上
             Entities.WithoutBurst().ForEach((Entity entity, ref PathFindingComponentData pathFindingComponentData) =>
             {
@@ -43,15 +44,17 @@ namespace RabiStar.ECS
                 {
                     entity = entity,
                     gridSize = gridSize,
-                    pathNodeArray = new NativeArray<PathNode>(pathNodeArray, Allocator.TempJob),
+                    // ReSharper disable once AccessToDisposedClosure
+                    pathNodeArray = new NativeArray<PathNode>(pathNodeArray , Allocator.TempJob),
                     startPos = pathFindingComponentData.startPos,
                     endPos = pathFindingComponentData.endPos
                 };
-                //pathFindingJobList.Add(pathFindingJob);
+                pathFindingJobList.Add(pathFindingJob);
                 jobHandleList.Add(pathFindingJob.Schedule());
             }).Run();
             //开始计算
             JobHandle.CompleteAll(jobHandleList);
+            //
             // //将寻路结果从节点转换为路径 路径将保存在pathBuffer中
             // foreach (var pathConvertingJob in pathFindingJobList.Select(pathFindingJob => new PathConvertingJob
             // {
@@ -65,7 +68,7 @@ namespace RabiStar.ECS
             // {
             //     pathConvertingJob.Run();
             // }
-            //
+
             // //并行缓冲器 会开多个线程处理job
             // var entityCommandBuffer = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
             // //移除寻路组件
@@ -77,12 +80,12 @@ namespace RabiStar.ECS
             // }).Schedule(Dependency);
             // //添加移动组件数据破坏了archetype结构 所以使用缓冲区延迟执行
             // _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(removeHandle);
-            //释放非托管内存
+            // //释放非托管内存
             pathNodeArray.Dispose();
         }
 
         /// <summary>
-        ///获取初始寻路节点数组
+        /// 获取初始化寻路网格节点数组
         /// </summary>
         private NativeArray<PathNode> GetPathNodeArray()
         {

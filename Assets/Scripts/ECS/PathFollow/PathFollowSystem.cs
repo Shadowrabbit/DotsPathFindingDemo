@@ -12,6 +12,7 @@ using Unity.Mathematics;
 
 namespace RabiStar.ECS
 {
+    [UpdateAfter(typeof(UnitSpawnerSystem))]
     public class PathFollowSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem; //命令缓冲系统

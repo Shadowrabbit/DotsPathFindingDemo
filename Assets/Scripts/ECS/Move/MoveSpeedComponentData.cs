@@ -11,6 +11,7 @@ using Unity.Entities;
 
 namespace RabiStar.ECS
 {
+    [GenerateAuthoringComponent]
     public struct MoveSpeedComponentData : IComponentData
     {
         public int speed;
