@@ -60,7 +60,7 @@ namespace RabiStar.ECS
                 {
                     startPos = new int2(startX, startY), endPos = new int2(endX, endY)
                 });
-            }).ScheduleParallel(Dependency);
+            }).Schedule(Dependency);
             //延迟改变结构
             _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
             //挂起等job完成

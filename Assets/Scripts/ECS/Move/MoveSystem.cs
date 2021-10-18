@@ -14,7 +14,7 @@ using Unity.Transforms;
 namespace RabiStar.ECS
 {
     //在路径跟随系统计算完成后移动
-    [UpdateAfter(typeof(PathFindingSystem))]
+    [UpdateAfter(typeof(RandomWalkSystem))]
     public class MoveSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem; //命令缓冲系统
@@ -30,16 +30,21 @@ namespace RabiStar.ECS
             var entityCommandBuffer = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
             var jobHandle = Entities
                 .ForEach((Entity entity, int entityInQueryIndex, ref Translation translation,
-                    in MoveComponentData moveComponentData, in MoveSpeedComponentData moveSpeedComponentData) =>
+                    ref PathFollowComponentData pathFollowComponentData, in MoveComponentData moveComponentData,
+                    in MoveSpeedComponentData moveSpeedComponentData) =>
                 {
                     //方向
                     var dir = math.normalizesafe(moveComponentData.targetPos - translation.Value);
                     //速度
                     var speed = moveSpeedComponentData.speed;
                     translation.Value += speed * deltaTime * dir;
-                    //移动完成 撤销移动组件
+                    //没有到达目标点
+                    if (!(math.distance(translation.Value, moveComponentData.targetPos) < .1f)) return;
+                    //当前目标点移动完成 撤销移动组件
                     entityCommandBuffer.RemoveComponent<MoveComponentData>(entityInQueryIndex, entity);
-                }).ScheduleParallel(Dependency);
+                    //标记当前路径索引完成
+                    pathFollowComponentData.currentPathIndex--;
+                }).Schedule(Dependency);
             _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
             jobHandle.Complete();
         }

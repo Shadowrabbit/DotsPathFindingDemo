@@ -13,7 +13,6 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
-using UnityEngine;
 
 namespace RabiStar.ECS
 {
@@ -34,7 +33,7 @@ namespace RabiStar.ECS
             //计算列表 用于储存计算结果
             var pathFindingJobList = new List<PathFindingJob>();
             //工作的句柄列表
-            var jobHandleList = new NativeList<JobHandle>(100, Allocator.Temp);
+            var pathFindingJobHandleList = new NativeList<JobHandle>(100, Allocator.Temp);
             //初始化的寻路网格节点数组
             var pathNodeArray = GetPathNodeArray();
             //寻路计算 结果在pathNodeArray的endPathNode上
@@ -45,41 +44,40 @@ namespace RabiStar.ECS
                     entity = entity,
                     gridSize = gridSize,
                     // ReSharper disable once AccessToDisposedClosure
-                    pathNodeArray = new NativeArray<PathNode>(pathNodeArray , Allocator.TempJob),
+                    pathNodeArray = new NativeArray<PathNode>(pathNodeArray, Allocator.TempJob),
                     startPos = pathFindingComponentData.startPos,
                     endPos = pathFindingComponentData.endPos
                 };
                 pathFindingJobList.Add(pathFindingJob);
-                jobHandleList.Add(pathFindingJob.Schedule());
+                pathFindingJobHandleList.Add(pathFindingJob.Schedule());
             }).Run();
-            //开始计算
-            JobHandle.CompleteAll(jobHandleList);
-            //
-            // //将寻路结果从节点转换为路径 路径将保存在pathBuffer中
-            // foreach (var pathConvertingJob in pathFindingJobList.Select(pathFindingJob => new PathConvertingJob
-            // {
-            //     entity = pathFindingJob.entity,
-            //     gridSize = pathFindingJob.gridSize,
-            //     pathNodeArray = pathFindingJob.pathNodeArray,
-            //     pathFindingComponentDataFromEntity = GetComponentDataFromEntity<PathFindingComponentData>(),
-            //     pathFollowComponentDataFromEntity = GetComponentDataFromEntity<PathFollowComponentData>(),
-            //     pathBufferFromEntity = GetBufferFromEntity<PathBufferData>()
-            // }))
-            // {
-            //     pathConvertingJob.Run();
-            // }
+            //等待异步计算完成
+            JobHandle.CompleteAll(pathFindingJobHandleList);
+            //再算一次路径转化
+            //将寻路结果从节点转换为路径 路径将保存在pathBuffer中
+            foreach (var pathConvertingJob in pathFindingJobList.Select(pathFindingJob => new PathConvertingJob
+            {
+                entity = pathFindingJob.entity,
+                gridSize = pathFindingJob.gridSize,
+                pathNodeArray = pathFindingJob.pathNodeArray,
+                pathFindingComponentDataFromEntity = GetComponentDataFromEntity<PathFindingComponentData>(),
+                pathFollowComponentDataFromEntity = GetComponentDataFromEntity<PathFollowComponentData>(),
+                pathBufferFromEntity = GetBufferFromEntity<PathBufferData>()
+            }))
+            {
+                pathConvertingJob.Run();
+            }
 
-            // //并行缓冲器 会开多个线程处理job
-            // var entityCommandBuffer = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
-            // //移除寻路组件
-            // var removeHandle = Entities.ForEach((Entity entity, int entityInQueryIndex,
-            //     ref PathFindingComponentData pathFindingComponentData) =>
-            // {
-            //     //缓存移除命令 当前帧计算完毕后再撤销组件
-            //     entityCommandBuffer.RemoveComponent<PathFindingComponentData>(entityInQueryIndex, entity);
-            // }).Schedule(Dependency);
-            // //添加移动组件数据破坏了archetype结构 所以使用缓冲区延迟执行
-            // _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(removeHandle);
+            //路径计算完毕 寻路组件数据移除
+            var entityCommandBuffer = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
+            var removeCompJobHandle = Entities.ForEach(
+                (Entity entity, int entityInQueryIndex, ref PathFindingComponentData pathFindingComponentData) =>
+                {
+                    entityCommandBuffer.RemoveComponent<PathFindingComponentData>(entityInQueryIndex, entity);
+                }).Schedule(Dependency);
+            _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(removeCompJobHandle);
+            //同步主线程
+            removeCompJobHandle.Complete();
             // //释放非托管内存
             pathNodeArray.Dispose();
         }

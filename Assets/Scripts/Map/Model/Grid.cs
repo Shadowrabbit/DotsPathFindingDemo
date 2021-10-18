@@ -43,7 +43,7 @@ namespace RabiStar.ECS
         /// <returns></returns>
         public int GetNodeId(int x, int y)
         {
-            return x * Height + y;
+            return x + y * Width;
         }
 
         /// <summary>

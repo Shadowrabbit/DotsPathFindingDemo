@@ -12,7 +12,6 @@ using Unity.Mathematics;
 
 namespace RabiStar.ECS
 {
-    [UpdateAfter(typeof(UnitSpawnerSystem))]
     public class PathFollowSystem : SystemBase
     {
         private EndSimulationEntityCommandBufferSystem _endSimulationEntityCommandBufferSystem; //命令缓冲系统
@@ -43,9 +42,7 @@ namespace RabiStar.ECS
                 //添加移动组件数据
                 var moveComponentData = new MoveComponentData {targetPos = targetPos};
                 entityCommandBuffer.AddComponent(entityInQueryIndex, entity, moveComponentData);
-                //下个点
-                pathFollowComponentData.currentPathIndex--;
-            }).ScheduleParallel(Dependency);
+            }).Schedule(Dependency);
             //添加移动组件数据破坏了archetype结构 所以使用缓冲区延迟执行
             _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
             //挂起等job完成
